@@ -1,0 +1,25 @@
+{
+  "name": "sales",
+  "version": "1.0.0",
+  "main": "web/index.js",
+  "license": "UNLICENSED",
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "info": "shopify app info",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy"
+  },
+  "dependencies": {
+    "@shopify/app": "3.45.0",
+    "@shopify/cli": "3.45.0",
+    "chart.js": "^4.2.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.0.3",
+    "react-chartjs-2": "^5.2.0",
+    "sass": "^1.62.0"
+  },
+  "author": "danmark.quinones"
+}
