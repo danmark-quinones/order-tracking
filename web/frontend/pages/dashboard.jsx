@@ -1,12 +1,12 @@
 import { ProductsCard } from "../components";
+import TrackOrders from "../components/TrackOrders";
 
 const Dashboard = () => {
   return (
     <div>
-      <p>DASHBOARD</p>
-      <p>HELLO</p>
-      {/* <Bar data={data} config={config} /> */}
-      <ProductsCard />
+      {/* <p>DASHBOARD</p> */}
+      {/* <ProductsCard /> */}
+      <TrackOrders />
     </div>
   );
 };

@@ -17,7 +17,7 @@ export function ProductsCard() {
   const fetch = useAuthenticatedFetch();
 
   useEffect(() => {
-    getOrders();
+    getOrders;
   }, []);
 
   const {
@@ -55,21 +55,12 @@ export function ProductsCard() {
   };
 
   const getOrders = async () => {
-    const responseTrack = await fetch("/api/tracker/get", {
+    const responseTrack = await fetch("/api/trackers/get", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "text/html",
       },
     });
-    const responseTrackbyID = await fetch(
-      "/api/tracker/get/643cbe109b6dd892ec0b73e6",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
   };
 
   const handleCreateTracker = async () => {
@@ -80,13 +71,16 @@ export function ProductsCard() {
       status: "In Progress",
     };
 
-    const response = await fetch("/api/tracker/create", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://a5a7-180-190-110-221.ngrok-free.app/ex-api/tracker/create",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
   };
 
   const handleUpdateTracker = async () => {
@@ -101,13 +95,28 @@ export function ProductsCard() {
       ],
       status: "In Progress",
     };
-    const response = await fetch("/api/tracker/update", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://a5a7-180-190-110-221.ngrok-free.app/ex-api/tracker/update",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+  };
+
+  const handleDeleteTracker = async () => {
+    const response = await fetch(
+      "https://a5a7-180-190-110-221.ngrok-free.app/ex-api/tracker/delete/643e0bb0d8f83fe7db32d483",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
   };
 
   return (
@@ -127,8 +136,11 @@ export function ProductsCard() {
             Sample products are created with a default title and price. You can
             remove them at any time.
           </p>
+          <button onClick={() => getOrders()}>FETCH</button>
           <button onClick={() => handleCreateTracker()}>Create</button>
           <button onClick={() => handleUpdateTracker()}>Update</button>
+          <button onClick={() => handleDeleteTracker()}>Delete</button>
+
           <Heading element="h4">
             TOTAL PRODUCTS
             <DisplayText size="medium">

@@ -9,19 +9,16 @@ import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import User from "./models/Test.js";
-import {
-  createOrderTracker,
-  deleteOrderTracker,
-  getAllOrderTracker,
-  getOrderTrackerById,
-  updateOrderTracker,
-} from "./controllers/orderTracker.controller.js";
 import orderTrackingRoutes from "./api-routes/orderTracker.routes.js";
+import dotenv from "dotenv";
 
-const mongoDB =
-  "mongodb+srv://midorenji0907:pogiako143@mean-stack-app.lk1yy.mongodb.net/?retryWrites=true&w=majority";
+dotenv.config();
+
+const mongoDB = process.env.DB_CONN_STRING;
 
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
+
+console.log(mongoDB);
 
 const STATIC_PATH =
   process.env.NODE_ENV === "production"
@@ -128,12 +125,7 @@ app.get("/api/products/create", async (_req, res) => {
   res.status(status).send({ success: status === 200, error });
 });
 
-// app.get("/api/tracker/get", getAllOrderTracker);
-// app.get("/api/tracker/get/:id", getOrderTrackerById);
-// app.post("/api/tracker/create", createOrderTracker);
-// app.put("/api/tracker/update", updateOrderTracker);
-// app.get("/api/tracker/delete/:id", deleteOrderTracker);
-app.use("/api/tracker", orderTrackingRoutes);
+app.use("/api/trackers", orderTrackingRoutes);
 
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));

@@ -5,10 +5,16 @@ const orderTrackerSchema = new mongoose.Schema(
     order_id: {
       type: String,
     },
-    order_line_item_id: {
+    tracking_number: {
       type: String,
     },
-    location_lists: {
+    graph_ql_id: {
+      type: String,
+    },
+    additional_destination: {
+      type: Array,
+    },
+    line_items: {
       type: Array,
     },
     status: {

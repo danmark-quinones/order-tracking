@@ -50,6 +50,22 @@ export const createOrderTracker = async (_req, res) => {
   }
 };
 
+export const createOrderTrackerWebhook = async (_req, res) => {
+  try {
+    const data = _req.body;
+
+    console.log("DATA", data);
+    // return res.status(200).json({
+    //   message: "SUCCESS CREATE",
+    //   data: newData,
+    // });
+  } catch (e) {
+    return res.status(500).json({
+      message: e.message,
+    });
+  }
+};
+
 export const updateOrderTracker = async (_req, res) => {
   try {
     const tracker = _req.body;
@@ -82,7 +98,7 @@ export const deleteOrderTracker = async (_req, res) => {
       return res.status(402).json({ message: "No Order with that id" });
     }
 
-    const order = await OrderTracker.findByIdAndRemove(params.id);
+    await OrderTracker.findByIdAndRemove(params.id);
     return res.status(200).json({
       message: "SUCCESS DELETE",
     });
