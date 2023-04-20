@@ -37,7 +37,7 @@ export default function HomePage() {
     <div>
       <TitleBar title="ORDER TRACKER MANAGEMENT" primaryAction={null} />
       <div className={styles.dashboardTopSection}>
-        <p>HELLO</p>
+        <ProductsCard />
       </div>
     </div>
   );

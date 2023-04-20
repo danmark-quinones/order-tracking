@@ -8,7 +8,6 @@ import mongoose from "mongoose";
 import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
-import User from "./models/Test.js";
 import orderTrackingRoutes from "./api-routes/orderTracker.routes.js";
 import dotenv from "dotenv";
 
@@ -80,19 +79,19 @@ app.get("/api/products/count", async (_req, res) => {
 });
 
 app.get("/api/products", async (_req, res) => {
-  // const orders = await shopify.api.rest.Product.all({
-  //   session: res.locals.shopify.session,
-  // });
-  // res.status(200).send(orders);
-  try {
-    const tests = await User.find();
-    res.status(200).json({
-      message: "Users fetched",
-      data: tests,
-    });
-  } catch (e) {
-    res.status(500).json({ message: e.message });
-  }
+  const orders = await shopify.api.rest.Product.all({
+    session: res.locals.shopify.session,
+  });
+  res.status(200).send(orders);
+  // try {
+  //   const tests = await User.find();
+  //   res.status(200).json({
+  //     message: "Users fetched",
+  //     data: tests,
+  //   });
+  // } catch (e) {
+  //   res.status(500).json({ message: e.message });
+  // }
 });
 
 app.get("/api/orders", async (_req, res) => {

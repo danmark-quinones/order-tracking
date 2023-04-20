@@ -43,9 +43,9 @@
   border-radius: 0.25rem;
   padding: 0.75rem;
   margin: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  // display: flex;
+  // align-items: center;
+  // justify-content: space-between;
   .titleContainer {
     display: flex;
     align-items: center;
@@ -53,6 +53,20 @@
       font-size: 1.25rem;
       font-weight: 700;
       margin-left: 0.5rem;
+    }
+  }
+  .filterContainer {
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .popOverContainer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      div {
+        margin-left: 1rem;
+      }
     }
   }
 }

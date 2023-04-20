@@ -1,12 +1,32 @@
 import mongoose from "mongoose";
 import OrderTracker from "../models/OrderTracker.js";
+import moment from "moment";
 
 export const getAllOrderTracker = async (_req, res) => {
   try {
-    const orders = await OrderTracker.find();
+    const {
+      query: { keyword, status, start, end, page, limit },
+    } = _req;
+    const count = await OrderTracker.count();
+    const orders = await OrderTracker.find({
+      $or: [
+        { order_name: { $regex: new RegExp(keyword, "i") || "" } },
+        { tracking_number: { $regex: new RegExp(keyword, "i") || "" } },
+      ],
+      status: { $regex: status || "" },
+      createdAt: {
+        $gte: moment(start),
+        $lt: moment(end),
+      },
+    })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort([["createdAt", -1]]);
+
     return res.status(200).json({
       message: "SUCCESS FETCH",
       data: orders,
+      total: count,
     });
   } catch (e) {
     return res.status(500).json({

@@ -1,0 +1,52 @@
+@import "./variables.scss";
+
+.timelineContainer {
+  border-left: 0.25rem solid lightgray;
+  padding: 0rem 1rem 0rem 2rem;
+  .timeline {
+    height: auto;
+    background-color: lightgray;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    position: relative;
+    color: gray;
+    &:first-of-type {
+      background-color: #ccc;
+      color: #2f2f2f;
+      p {
+        font-weight: 500;
+      }
+    }
+  }
+  .timeline::before {
+    content: "";
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    background-color: $white;
+    border: 0.25rem solid lightgray;
+    position: absolute;
+    top: 1.25rem;
+    left: -2.6rem;
+    display: block;
+  }
+  .timeline:first-of-type::before {
+    background-color: $green;
+    border: 0.25rem solid #ccc;
+  }
+
+  .timeline::after {
+    content: "";
+    height: 0rem;
+    width: 0rem;
+    border-style: solid;
+    border-color: transparent lightgray transparent transparent;
+    border-width: 0.5rem;
+    position: absolute;
+    top: 1.25rem;
+    left: -1rem;
+  }
+  .timeline:first-of-type::after {
+    border-color: transparent #ccc transparent transparent;
+  }
+}
