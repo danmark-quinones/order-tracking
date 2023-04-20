@@ -7,8 +7,8 @@ export const getAllOrderTracker = async (_req, res) => {
     const {
       query: { keyword, status, start, end, page, limit },
     } = _req;
-    const count = await OrderTracker.count();
-    const orders = await OrderTracker.find({
+
+    const queryDB = {
       $or: [
         { order_name: { $regex: new RegExp(keyword, "i") || "" } },
         { tracking_number: { $regex: new RegExp(keyword, "i") || "" } },
@@ -18,7 +18,9 @@ export const getAllOrderTracker = async (_req, res) => {
         $gte: moment(start),
         $lt: moment(end),
       },
-    })
+    };
+    const count = await OrderTracker.find(queryDB);
+    const orders = await OrderTracker.find(queryDB)
       .skip((page - 1) * limit)
       .limit(limit)
       .sort([["createdAt", -1]]);
@@ -26,7 +28,7 @@ export const getAllOrderTracker = async (_req, res) => {
     return res.status(200).json({
       message: "SUCCESS FETCH",
       data: orders,
-      total: count,
+      total: count.length,
     });
   } catch (e) {
     return res.status(500).json({

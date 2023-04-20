@@ -74,7 +74,7 @@ const OrderStatusFormModal = (props) => {
       ],
     };
 
-    console.log("PAYLOAD", payload);
+    // console.log("PAYLOAD", payload);
 
     const response = await fetch("/api/trackers/update", {
       method: "PUT",
@@ -87,11 +87,8 @@ const OrderStatusFormModal = (props) => {
     if (response.ok) {
       console.log("OK", response);
       refreshLists();
-      setTimeout(() => {
-        setUpdating(false);
-        onClose();
-        refreshLists();
-      }, 3000);
+      setUpdating(false);
+      onClose();
     } else {
       console.log("ERR", response);
       setUpdating(false);

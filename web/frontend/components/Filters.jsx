@@ -4,7 +4,7 @@ import moment from "moment";
 import { useState, useCallback, useEffect } from "react";
 
 const Filters = (props) => {
-  const { filters, setFilters } = props;
+  const { filters, setFilters, applyFilter } = props;
 
   const statuses = [
     { label: "All", value: "" },
@@ -95,14 +95,24 @@ const Filters = (props) => {
         autofocusTarget="first-node"
         onClose={() => togglePopoverActive("status")}
       >
-        <div style={{ padding: "20px", width: "200px" }}>
+        <div className={styles.statusMenuContainer}>
           {statuses.map((status, i) => (
-            <p key={i} onClick={() => handleSelectStatus(status.value)}>
+            <p
+              className={styles.statusMenu}
+              key={i}
+              onClick={() => handleSelectStatus(status.value)}
+            >
               {status.label}
             </p>
           ))}
         </div>
       </Popover>
+      <div className={styles.blueBtn}>
+        <Button onClick={() => applyFilter()}>Apply Filter</Button>
+      </div>
+      {/* <div className={styles.greenBtn}>
+        <Button onClick={() => applyFilter()}>Refresh</Button>
+      </div> */}
     </div>
   );
 };

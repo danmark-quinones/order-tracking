@@ -9,6 +9,7 @@ import {
   TextField,
   useIndexResourceState,
   Badge,
+  Pagination,
 } from "@shopify/polaris";
 import { RefreshMajor, SearchMinor } from "@shopify/polaris-icons";
 import OrderJourneyModal from "./modals/OrderJourney";
@@ -17,6 +18,7 @@ import Filters from "./Filters";
 
 const TrackOrders = () => {
   const [orders, setOrders] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [filters, setFilters] = useState({
     search: "",
@@ -24,7 +26,7 @@ const TrackOrders = () => {
     start: moment().format("YYYY/MM/DD"),
     end: moment().add(7, "days").format("YYYY/MM/DD"),
     page: 1,
-    limit: 2,
+    limit: 10,
   });
 
   const [modals, setModals] = useState({
@@ -48,11 +50,17 @@ const TrackOrders = () => {
   const setDestinationStatusOnly = ["picked-up", "failed", "departed"];
 
   useEffect(() => {
-    applyFilter();
+    applyFilter(null);
   }, []);
 
+  useEffect(() => {
+    if (filters.page || filters.limit) {
+      applyFilter("pagination");
+    }
+  }, [filters.page, filters.limit]);
+
   const onButtonClick = () => {
-    applyFilter();
+    applyFilter(null);
   };
 
   const handleSearchChange = (name, value) => {
@@ -77,10 +85,11 @@ const TrackOrders = () => {
     });
   };
 
-  const applyFilter = () => {
+  const applyFilter = (trigger) => {
     setIsLoading(true);
+    const page = trigger === "pagination" ? filters.page : 1;
     fetch(
-      `/api/trackers/get?page=1&limit=10&keyword=${filters.search}&status=${filters.status}&start=${filters.start}&end=${filters.end}`,
+      `/api/trackers/get?page=${page}&limit=${filters.limit}&keyword=${filters.search}&status=${filters.status}&start=${filters.start}&end=${filters.end}`,
       {
         method: "GET",
       }
@@ -89,8 +98,20 @@ const TrackOrders = () => {
       .then((orders) => {
         console.log("DATA", orders);
         setOrders(orders.data);
+        setTotalCount(orders.total);
+        if (!trigger) {
+          setFilters({ ...filters, page: 1 });
+        }
         setIsLoading(false);
       });
+  };
+
+  const handleEnter = (event) => {
+    const enterKeyPressed = event.keyCode === 13;
+    if (enterKeyPressed) {
+      event.preventDefault();
+      applyFilter(null);
+    }
   };
 
   const rowMarkup = orders.map((order, index) => (
@@ -228,26 +249,37 @@ const TrackOrders = () => {
     <div className={styles.trackContainer}>
       <div className={styles.tableTitleContainer}>
         <div className={styles.titleContainer}>
-          <Button size="slim" onClick={() => onButtonClick()}>
-            <Icon source={RefreshMajor} color="base" />
-          </Button>
           <h1>Parcel Lists</h1>
         </div>
         <div className={styles.filterContainer}>
-          <div style={{ width: "300px" }}>
+          <div style={{ width: "300px" }} onKeyDown={(e) => handleEnter(e)}>
             <TextField
               placeholder="Search Order via ID , Tracking Number"
               value={filters.search}
               onChange={(value) => handleSearchChange("search", value)}
               prefix={<Icon source={SearchMinor} color="base" />}
+              o
             />
           </div>
-          <Filters filters={filters} setFilters={setFilters} />
-          <Button onClick={() => applyFilter()}>Apply Filter</Button>
+          <Filters
+            filters={filters}
+            setFilters={setFilters}
+            applyFilter={() => applyFilter(null)}
+          />
         </div>
       </div>
 
       <div className={styles.tableContainer}>
+        <div className={styles.queryBadgeContainer}>
+          <p>
+            Found {totalCount} orders from your query :
+            {filters.search && <Badge>{`keywords : ${filters.search}`}</Badge>}
+            <Badge>{`date : ${moment(filters.start).format(
+              "MM/DD/YYYY"
+            )} - ${moment(filters.end).format("MM/DD/YYYY")}`}</Badge>
+            {filters.status && <Badge>{`status : ${filters.status}`}</Badge>}
+          </p>
+        </div>
         <IndexTable
           resourceName={resourceName}
           itemCount={orders.length}
@@ -270,6 +302,23 @@ const TrackOrders = () => {
         >
           {rowMarkup}
         </IndexTable>
+      </div>
+
+      <div className={styles.paginationContainer}>
+        <p>
+          {filters.page} of {Math.ceil(totalCount / filters.limit)}
+        </p>
+
+        <Pagination
+          hasNext={filters.page !== Math.ceil(totalCount / filters.limit)}
+          hasPrevious={filters.page !== 1}
+          onNext={() => {
+            setFilters({ ...filters, page: filters.page + 1 });
+          }}
+          onPrevious={() => {
+            setFilters({ ...filters, page: filters.page - 1 });
+          }}
+        />
       </div>
 
       <OrderJourneyModal

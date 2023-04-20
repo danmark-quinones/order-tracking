@@ -98,45 +98,78 @@
       letter-spacing: 0.1rem;
       width: 8rem;
     }
-    .blueBtn {
-      button {
-        border-color: rgba($color: $blue, $alpha: 0.8);
-        color: rgba($color: $blue, $alpha: 0.8);
-        &:hover {
-          border-color: rgba($color: $blue, $alpha: 1);
-          color: rgba($color: $blue, $alpha: 1);
-        }
-      }
+  }
+  .queryBadgeContainer {
+    margin-bottom: 1rem;
+    color: gray;
+    p > span {
+      margin-left: 0.5rem;
+      background-color: rgba($color: $green, $alpha: 0.3);
+      // color: $white;
+      padding: 0.2rem 0.5rem;
     }
-    .greenBtn {
-      button {
-        border-color: rgba($color: $green, $alpha: 0.8);
-        color: rgba($color: $green, $alpha: 0.8);
-        &:hover {
-          border-color: rgba($color: $green, $alpha: 1);
-          color: rgba($color: $green, $alpha: 1);
-        }
-      }
+  }
+}
+
+.statusMenuContainer {
+  width: 200px !important;
+  .statusMenu {
+    padding-left: 0.5rem !important;
+    cursor: pointer;
+    &:hover {
+      background-color: rgba($color: $blue, $alpha: 0.2);
     }
-    .orangeBtn {
-      button {
-        border-color: rgba($color: $orange, $alpha: 0.8);
-        color: rgba($color: $orange, $alpha: 0.8);
-        &:hover {
-          border-color: rgba($color: $orange, $alpha: 1);
-          color: rgba($color: $orange, $alpha: 1);
-        }
-      }
+  }
+}
+
+.blueBtn {
+  button {
+    border-color: rgba($color: $blue, $alpha: 0.8);
+    color: rgba($color: $blue, $alpha: 0.8);
+    &:hover {
+      border-color: rgba($color: $blue, $alpha: 1);
+      color: rgba($color: $blue, $alpha: 1);
     }
-    .redBtn {
-      button {
-        border-color: rgba($color: $red, $alpha: 0.8);
-        color: rgba($color: $red, $alpha: 0.8);
-        &:hover {
-          border-color: rgba($color: $red, $alpha: 1);
-          color: rgba($color: $red, $alpha: 1);
-        }
-      }
+  }
+}
+.greenBtn {
+  button {
+    border-color: rgba($color: $green, $alpha: 0.8);
+    color: rgba($color: $green, $alpha: 0.8);
+    &:hover {
+      border-color: rgba($color: $green, $alpha: 1);
+      color: rgba($color: $green, $alpha: 1);
     }
+  }
+}
+.orangeBtn {
+  button {
+    border-color: rgba($color: $orange, $alpha: 0.8);
+    color: rgba($color: $orange, $alpha: 0.8);
+    &:hover {
+      border-color: rgba($color: $orange, $alpha: 1);
+      color: rgba($color: $orange, $alpha: 1);
+    }
+  }
+}
+.redBtn {
+  button {
+    border-color: rgba($color: $red, $alpha: 0.8);
+    color: rgba($color: $red, $alpha: 0.8);
+    &:hover {
+      border-color: rgba($color: $red, $alpha: 1);
+      color: rgba($color: $red, $alpha: 1);
+    }
+  }
+}
+.paginationContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  background-color: $white;
+  padding: 1rem;
+  margin: 1rem;
+  div {
+    margin-left: 0.5rem;
   }
 }
