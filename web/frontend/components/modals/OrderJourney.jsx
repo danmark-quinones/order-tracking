@@ -5,8 +5,6 @@ import moment from "moment/moment";
 const OrderJourneyModal = (props) => {
   const { config, onClose } = props;
 
-  const handleChange = () => {};
-
   return (
     <div style={{ height: "500px" }}>
       <Modal

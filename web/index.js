@@ -10,14 +10,16 @@ import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import orderTrackingRoutes from "./api-routes/orderTracker.routes.js";
 import dotenv from "dotenv";
+import {
+  fetchProducts,
+  getProductById,
+} from "./controllers/orderGraphQL.controller.js";
 
 dotenv.config();
 
 const mongoDB = process.env.DB_CONN_STRING;
 
 const PORT = parseInt(process.env.BACKEND_PORT || process.env.PORT, 10);
-
-console.log(mongoDB);
 
 const STATIC_PATH =
   process.env.NODE_ENV === "production"
@@ -78,36 +80,28 @@ app.get("/api/products/count", async (_req, res) => {
   res.status(200).send(countData);
 });
 
-app.get("/api/products", async (_req, res) => {
-  const orders = await shopify.api.rest.Product.all({
-    session: res.locals.shopify.session,
-  });
-  res.status(200).send(orders);
-  // try {
-  //   const tests = await User.find();
-  //   res.status(200).json({
-  //     message: "Users fetched",
-  //     data: tests,
-  //   });
-  // } catch (e) {
-  //   res.status(500).json({ message: e.message });
-  // }
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = await fetchProducts(
+      res.locals.shopify.session,
+      req.query.id
+    );
+    res.status(200).json({ data: products });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-app.get("/api/orders", async (_req, res) => {
-  // const orders = await shopify.api.rest.Order.all({
-  //   session: res.locals.shopify.session,
-  // });
-  // res.status(200).send(orders);
-  const session = res.locals.shopify.session;
-  const orders = await Orders(session, 100);
-  let status = 200;
-  let error = null;
-  res.status(status).send({
-    success: status === 200,
-    products: orders?.body?.data?.orders.edges,
-    error,
-  });
+app.get("/api/product", async (req, res) => {
+  try {
+    const product = await getProductById(
+      res.locals.shopify.session,
+      req.query.id
+    );
+    res.status(200).json({ data: product });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 app.get("/api/products/create", async (_req, res) => {

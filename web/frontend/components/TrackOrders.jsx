@@ -15,6 +15,7 @@ import { RefreshMajor, SearchMinor } from "@shopify/polaris-icons";
 import OrderJourneyModal from "./modals/OrderJourney";
 import OrderStatusFormModal from "./modals/OrderStatusForm";
 import Filters from "./Filters";
+import FulfillmentLineItemModal from "./modals/FulfillmentLineItem";
 
 const TrackOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -32,6 +33,7 @@ const TrackOrders = () => {
   const [modals, setModals] = useState({
     showOrderJourney: false,
     showOrderStatusForm: false,
+    showFulfillmentLineItem: false,
     title: "",
     type: "",
     data: {},
@@ -76,6 +78,7 @@ const TrackOrders = () => {
   };
 
   const openModal = (name, data, title, type) => {
+    console.log("OT0", name, data);
     setModals({
       ...modals,
       [name]: true,
@@ -146,7 +149,12 @@ const TrackOrders = () => {
       <IndexTable.Cell>
         <div className={styles.lineItemsContainer}>
           <p>{`${order.line_items.length} Item(s)`} </p>
-          <Button plain>View Line Item</Button>
+          <Button
+            onClick={() => openModal("showFulfillmentLineItem", order)}
+            plain
+          >
+            View Line Item
+          </Button>
         </div>
       </IndexTable.Cell>
       <IndexTable.Cell>
@@ -249,7 +257,7 @@ const TrackOrders = () => {
     <div className={styles.trackContainer}>
       <div className={styles.tableTitleContainer}>
         <div className={styles.titleContainer}>
-          <h1>Parcel Lists</h1>
+          <h1>Parcels Management System</h1>
         </div>
         <div className={styles.filterContainer}>
           <div style={{ width: "300px" }} onKeyDown={(e) => handleEnter(e)}>
@@ -324,6 +332,10 @@ const TrackOrders = () => {
       <OrderJourneyModal
         config={modals}
         onClose={() => closeModal("showOrderJourney")}
+      />
+      <FulfillmentLineItemModal
+        config={modals}
+        onClose={() => closeModal("showFulfillmentLineItem")}
       />
       <OrderStatusFormModal
         config={modals}
