@@ -15,4 +15,10 @@ router.post("/create", createOrderTracker);
 router.put("/update", updateOrderTracker);
 router.delete("/delete/:id", deleteOrderTracker);
 
+router.post("/test", (req, res) => {
+  res.status(200).message({
+    message: "CONNECTED",
+  });
+});
+
 export default router;

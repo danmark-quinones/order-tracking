@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="{{ 'index.css' | asset_url }}">
+
+<div class="tracker-container">
+  <div>
+    <h1 class="tracker-header">Track my order</h1>
+    <input class="tracking-number" placeholder="Input your parcel's tracking number here" />
+    <button class="tracker-btn">SEARCH</button>
+    <div class="status-container"></div>
+  </div>
+</div>
+
+<script>
+  const trackingNumber = document.querySelector(".tracking-number")
+  const statusContainer = document.querySelector(".status-container")
+  const button = document.querySelector(".tracker-btn")
+
+  button.addEventListener("click", async () => {
+    statusContainer.textContent = ''
+    button.textContent = 'SEARCHING...'
+    const test = `https://ffbf-180-190-110-221.ngrok-free.app/ex-api/tracker/parcel`
+    const payload = {
+      tracking_number: trackingNumber.value
+    }
+    const res = await fetch(test, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    }).then((res) => res.json()).then((data) => {
+
+      const status = data.data[0].additional_destination
+      button.textContent = 'SEARCH'
+
+      status.forEach((item) => {
+        let childNode = document.createElement('div');
+        childNode.innerHTML = `<p>${
+          item.notes
+        }</p>
+        <small class="badges badge-${
+          item.status
+        }">${
+          item.status.replace("-", " ").toUpperCase()
+        }</small>
+        <small>${
+          item.date_created
+        }</small>`;
+        statusContainer.appendChild(childNode);
+      })
+    })
+
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Order Tracker",
+    "target": "section",
+    "settings": [
+      {
+        "type": "product",
+        "id": "product",
+        "label": "product",
+        "autofill": true
+      }, {
+        "type": "color",
+        "id": "colour",
+        "label": "Order Tracker",
+        "default": "#ff0000"
+      }
+    ]
+  }
+{% endschema %}
