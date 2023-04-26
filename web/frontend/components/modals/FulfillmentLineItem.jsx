@@ -64,7 +64,7 @@ const FulfillmentLineItemModal = (props) => {
                   <img src={item.image} />
                   <p>{item.title}</p>
                   <p>Qty : {item.quantity}</p>
-                  <p>Total : {item.total_amount} USD</p>
+                  <p>Total : {item.total_amount} PHP</p>
                 </div>
               ))
             ) : null}

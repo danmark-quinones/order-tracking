@@ -27,7 +27,7 @@ const TrackOrders = () => {
     start: moment().format("YYYY/MM/DD"),
     end: moment().add(7, "days").format("YYYY/MM/DD"),
     page: 1,
-    limit: 10,
+    limit: 3,
   });
 
   const [modals, setModals] = useState({
